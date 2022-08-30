@@ -1,16 +1,27 @@
+playerScore = 0
+computerScore = 0
 
-console.log("Hello")
+const btns = document.querySelectorAll(".btn")
+btns.forEach(btn => btn.addEventListener('click', playRound));
 
-function logBtn(event){
-    console.log(event.firstChild)
+const content = document.createElement('div');
+content.classList.add('text')
+const head = document.createElement('div');
+head.classList.add('top')
+
+
+
+head.textContent = "Welcome to Rock-Paper-Scissors! Click to start."
+//content.textContent = `You: ${playerScore}  Computer: ${computerScore}`
+
+function updateScore(){
+    content.textContent = `You: ${playerScore}  Computer: ${computerScore}`
 }
 
-const btn = document.querySelector(".btn")
+const container = document.querySelector('.container')
 
-btn.addEventListener('click', logBtn);
-
-
-
+container.appendChild(head)
+container.appendChild(content)
 
 function getComputerChoice(){
     let number;
@@ -24,52 +35,53 @@ function getComputerChoice(){
     }
 }
 
+function playRound(event){
 
-
-function playRound(){
-
-    let playerSelection;
-    
-    playerSelection = prompt("Rock, Paper, or Scissors?");
-    playerSelection = playerSelection.toLowerCase();
-    playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
-
-    let computerSelection = getComputerChoice()
+    let playerSelection = event.srcElement.innerText;
+    let computerSelection = getComputerChoice();
 
     if (playerSelection === computerSelection){
-        alert("Tie Game")
+        head.textContent = "Tie Game!";
+        updateScore();
     }else if (((playerSelection === "Rock") && (computerSelection === "Paper")) ||
             ((playerSelection === "Paper") && (computerSelection === "Scissors")) ||
             ((playerSelection === "Scissors") && (computerSelection === "Rock"))){
                 computerScore += 1
-                alert(`You lose! ${computerSelection} beats ${playerSelection}`)
+                updateScore();
+                checkLose(playerSelection, computerSelection);
+                
+                
+                
+                
     }else if (((playerSelection === "Rock") && (computerSelection === "Scissors")) ||
             ((playerSelection === "Paper") && (computerSelection === "Rock")) ||
             ((playerSelection === "Scissors") && (computerSelection === "Paper"))) {
                 playerScore += 1
-                alert(`You win! ${playerSelection} beats ${computerSelection}`)       
-    }else{
-        alert(`You entered ${playerSelection}. Please choose Rock, Paper, or Scissors`)
+                updateScore();
+                checkWin(playerSelection, computerSelection);
     }
 }
 
-function game(){
-    
+
+function resetScores(){
     playerScore = 0
     computerScore = 0
-
-    while ((playerScore < 5) && (computerScore < 5)){
-        playRound(playerScore, computerScore)
-        console.log(`Player: ${playerScore} Computer: ${computerScore}`)
-    }
-    
-    if (playerScore = 5){
-        alert("Congratulations. You win!")
-    }else{
-        alert("Sorry. You lose!")
-    }
-
-    
 }
 
 
+function checkWin(playerSelection, computerSelection){
+    if(playerScore > 4){
+        head.textContent = "Congratulations! You win!"
+        resetScores();
+    }else{
+        head.textContent = `You win! ${playerSelection} beats ${computerSelection}`
+    }}
+
+function checkLose(playerSelection, computerSelection){
+    if(computerScore > 4){
+        head.textContent = "Sorry! You lost!";
+        resetScores();
+    }else{
+        head.textContent = `You lose! ${computerSelection} beats ${playerSelection}`
+    }
+}
