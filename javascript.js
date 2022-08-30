@@ -1,7 +1,16 @@
 
 console.log("Hello")
 
-//alert("Hello2")
+function logBtn(event){
+    console.log(event.firstChild)
+}
+
+const btn = document.querySelector(".btn")
+
+btn.addEventListener('click', logBtn);
+
+
+
 
 function getComputerChoice(){
     let number;
@@ -54,6 +63,12 @@ function game(){
         console.log(`Player: ${playerScore} Computer: ${computerScore}`)
     }
     
+    if (playerScore = 5){
+        alert("Congratulations. You win!")
+    }else{
+        alert("Sorry. You lose!")
+    }
+
     
 }
 
